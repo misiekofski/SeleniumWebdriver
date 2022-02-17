@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace SeleniumWebdriver.BB_Zaawansowane
 {
@@ -22,7 +24,7 @@ namespace SeleniumWebdriver.BB_Zaawansowane
 
         [TestCase("Desktop", "C", "2", "12")]
         [TestCase("Server", "Java", "3", "23")]
-        [TestCase("Server", "Java", "3", "23")]
+        [TestCase("Web", "Javascript", "1", "1")]
         public void TestCodeInIt(string category, string language, string valueId, string languageId)
         {
             driver.Url = "https://testpages.herokuapp.com/styled/basic-ajax-test.html";
@@ -74,9 +76,31 @@ namespace SeleniumWebdriver.BB_Zaawansowane
 
             IWebElement tableElement = driver.FindElement(By.Id("dynamictable"));
             IList<IWebElement> tableRows = tableElement.FindElements(By.XPath("//tr"));
-            Console.Write(tableRows.Count);
+            Assert.AreEqual(4, tableRows.Count);
+        }
 
-          
+
+        [Test]
+        public void TestMouseOverDiv()
+        {
+            driver.Url = "https://testpages.herokuapp.com/styled/expandingdiv.html";
+            IWebElement expandingDiv = driver.FindElement(By.CssSelector(".expand"));
+            Actions action = new Actions(driver);
+            action.MoveToElement(expandingDiv);
+            action.Perform();
+
+            var linkToClick = expandingDiv.FindElement(By.XPath(".//a"));
+            linkToClick.Click();
+
+            var header = driver.FindElement(By.XPath("//h1"));
+            StringAssert.AreEqualIgnoringCase(header.Text, "You clicked the link in the expanding div");
+
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            driver.Quit();
         }
     }
 }
