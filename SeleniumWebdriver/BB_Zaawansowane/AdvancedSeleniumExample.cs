@@ -33,16 +33,24 @@ namespace SeleniumWebdriver.BB_Zaawansowane
         public void TestDynamicTable()
         {
             driver.Url = "https://testpages.herokuapp.com/styled/tag/dynamic-table.html";
-            IWebElement tableData = driver.FindElement(By.XPath("//section"));
+            IWebElement tableData = driver.FindElement(By.XPath("//summary"));
             tableData.Click();
 
             IWebElement textArea = driver.FindElement(By.Id("jsondata"));
             textArea.Click();
             textArea.Clear();
 
-            string table = "[{'name' : 'Bob', 'age' : 20}, {'name': 'George', 'age' : 42}]"
-            textArea.SendKeys(table);
+            string tableText = "[{\"name\" : \"Bob\", \"age\" : 20}," +
+                " {\"name\": \"George\", \"age\" : 42}," +
+                " {\"name\": \"John Wick\", \"age\": 44}]";
+            textArea.SendKeys(tableText);
 
+            IWebElement refreshTableButton = driver.FindElement(By.Id("refreshtable"));
+            refreshTableButton.Click();
+
+            IWebElement tableElement = driver.FindElement(By.Id("dynamictable"));
+            IList<IWebElement> tableRows = tableElement.FindElements(By.XPath("//tr"));
+            Console.Write(tableRows.Count);
         }
     }
 }
