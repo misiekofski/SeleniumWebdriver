@@ -20,6 +20,8 @@ namespace SeleniumWebdriver.PageObjectPattern.tests
         [Test]
         public void TestUserRegistration()
         {
+            driver.Url = "https://react-redux.realworld.io/#/register";
+
             var timestamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
             string email = $"dobrzycki+{timestamp}@gmail.com";
             string username = "John Wick";
