@@ -94,7 +94,39 @@ namespace SeleniumWebdriver.BB_Zaawansowane
 
             var header = driver.FindElement(By.XPath("//h1"));
             StringAssert.AreEqualIgnoringCase(header.Text, "You clicked the link in the expanding div");
+        }
 
+        [Test]
+        public void TestDynamicButtons()
+        {
+
+            driver.Url = "https://testpages.herokuapp.com/styled/dynamic-buttons-disabled.html";
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+            {
+                PollingInterval = TimeSpan.FromSeconds(1),
+            };
+            wait.IgnoreExceptionTypes(typeof(NoSuchElementException));
+
+            IWebElement startButton = wait.Until(driver =>
+                driver.FindElement(By.Id("button00")));
+
+            startButton.Click();
+
+            var oneButton = driver.FindElement(By.Id("button01"));
+            wait.Until(driver => oneButton.Enabled);
+            oneButton.Click();
+
+            var twoButton = driver.FindElement(By.Id("button02"));
+            wait.Until(driver => twoButton.Enabled);
+            twoButton.Click();
+
+            var threeButton = driver.FindElement(By.Id("button03"));
+            wait.Until(driver => threeButton.Enabled);
+            threeButton.Click();
+
+            var buttonMessage = driver.FindElement(By.Id("buttonmessage"));
+            StringAssert.AreEqualIgnoringCase(buttonMessage.Text, "All buttons clicked");
         }
 
         [TearDown]

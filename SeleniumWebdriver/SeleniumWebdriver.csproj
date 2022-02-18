@@ -21,4 +21,10 @@
     <Folder Include="PageObjectPattern\pages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="files\kotek.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
